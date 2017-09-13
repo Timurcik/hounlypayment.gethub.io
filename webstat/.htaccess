@@ -1,0 +1,7 @@
+AuthType Basic
+AuthName "/www/finans-vest.com/webstat"
+AuthUserFile /var/www/user9/data/etc/46137409.passwd
+DirectoryIndex index.html
+<Limit GET POST>
+	require valid-user
+</Limit>

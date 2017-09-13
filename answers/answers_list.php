@@ -1,0 +1,269 @@
+<!-- Breadcrumbs Begin -->
+				<div class="general-block-outer">
+					<div class="general-block breadcrumbs">
+						<ul class="breadcrumbs">
+							<li class="home"><a href="#"><img src="../images/green/breadcrumbs_home.png" border="0"/></a></li>
+							<li><a href="#">Отзывы</a></li>
+							
+						</ul>
+						<br class="clear"/>
+					</div>
+				</div>
+				<!-- Breadcrumbs End -->
+<?php
+defined('ACCESS') or die();
+
+$action = $_GET['action'];
+
+// Добавление отзыва
+if ($action == "send") {
+	if ($login) {
+		if ($_POST['radio'] < 1 OR $_POST['radio'] > 2) {
+			print '<p class="er">Не балуйтесь!</p>';
+		} else {
+			$text = nl2br(htmlspecialchars(substr($_POST['text'], 0, 10000), ENT_QUOTES, ''));
+
+			$text = str_replace(":001:","<img src=\"/images/smiles/01.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":002:","<img src=\"/images/smiles/02.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":003:","<img src=\"/images/smiles/03.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":004:","<img src=\"/images/smiles/04.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":005:","<img src=\"/images/smiles/05.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":006:","<img src=\"/images/smiles/06.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":007:","<img src=\"/images/smiles/07.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":008:","<img src=\"/images/smiles/08.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":009:","<img src=\"/images/smiles/09.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":010:","<img src=\"/images/smiles/10.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":011:","<img src=\"/images/smiles/11.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":012:","<img src=\"/images/smiles/12.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":013:","<img src=\"/images/smiles/13.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":014:","<img src=\"/images/smiles/14.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":015:","<img src=\"/images/smiles/15.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":016:","<img src=\"/images/smiles/16.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":017:","<img src=\"/images/smiles/17.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":018:","<img src=\"/images/smiles/18.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":019:","<img src=\"/images/smiles/19.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":020:","<img src=\"/images/smiles/20.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":021:","<img src=\"/images/smiles/21.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":022:","<img src=\"/images/smiles/22.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":023:","<img src=\"/images/smiles/23.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":024:","<img src=\"/images/smiles/24.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":025:","<img src=\"/images/smiles/25.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":026:","<img src=\"/images/smiles/26.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":027:","<img src=\"/images/smiles/27.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+			$text = str_replace(":028:","<img src=\"/images/smiles/28.gif\" height=\"20\" width=\"20\" border=\"0\" alt=\":)\" />",$text);
+
+			$temp = strtok($text, " ");
+
+
+			if (!$text || $text == " ") {
+				print "<p class=\"er\">Введите текст сообщения</p>";
+			} elseif (strlen($temp) > 100) {
+				print "<p class=\"er\">Текст Вашего сообщение содержит слишком много символов без пробелов!</p>";
+			} elseif (mysql_num_rows(mysql_query("SELECT id FROM answers WHERE date > ".(time() - 1800)." AND username = '".$login."' LIMIT 1"))) {
+				print "<p class=\"er\">Отзыв нельзя добавлять чаще одного раза в 30 минут.</p>";
+			} else {
+
+				if ($_POST['radio'] == 1) {
+					$radi = 1;
+				} else {
+					$radi = 2;
+				}
+
+				if(mysql_num_rows(mysql_query("SELECT user_id FROM deposits WHERE user_id = ".$user_id." LIMIT 1"))) {
+
+					$get_user	= mysql_query("SELECT user_id FROM deposits WHERE user_id = ".$user_id." LIMIT 1");
+					$row		= mysql_fetch_array($get_user);
+					$client_id	= $row['user_id'];
+					$view 		= 1;
+
+				} else {
+					$view 		= 1;
+					$client_id 	= 0;
+				}
+
+				$sql = "INSERT INTO answers (`username`, `client_id`, `text`, `date`, `yes`, `view`, `ip`, `poll`) VALUES ('".$login."', ".$client_id.", '".$text."', ".time().", '".$radi."', ".$view.", '".getip()."', ".intval($_POST['poll']).")";
+
+				if (mysql_query($sql)) {
+					print "<p class=\"erok\">Сообщение добавлено!</p>";
+				} else {
+					print "<p class=\"er\">Произошла ошибка при записи данных в БД</p>";
+				}
+
+				$text = "";
+			}
+		}
+	} else {
+		print '<p class="er">Вы должны авторизироваться для доступа на эту страницу!</p>';
+	}
+} elseif($_GET['a'] == "pollno") {
+	// Голосование (ПРОТИВ)
+
+	if(!$login) {
+		print "<p class=\"er\">Для голосования вам необходимо зарегистрироваться!</p>";
+	} elseif(mysql_num_rows(mysql_query("SELECT * FROM answers_poll WHERE answer_id = ".intval($_GET['id'])." AND (user_id = ".$user_id." || ip = '".getip()."') LIMIT 1"))) {
+		print "<p class=\"er\">Вы уже голосовали за данный отзыв</p>";
+	} else {
+
+		mysql_query("INSERT INTO answers_poll (`user_id`, `date`, `ip`, `answer_id`, `poll`) VALUES (".$user_id.", ".time().", '".getip()."', ".intval($_GET['id']).", 1)");
+		mysql_query("UPDATE answers SET poll_no = poll_no + 1, poll_count = poll_count + 1 WHERE id = ".intval($_GET['id'])." LIMIT 1");
+		print "<p class=\"erok\">Ваше мнение учтено!</p>";
+
+	}
+
+} elseif($_GET['a'] == "pollyes") {
+	// Голосование (ЗА)
+
+	if(!$login) {
+		print "<p class=\"er\">Для голосования вам необходимо зарегистрироваться!</p>";
+	} elseif(mysql_num_rows(mysql_query("SELECT * FROM answers_poll WHERE answer_id = ".intval($_GET['id'])." AND (user_id = ".$user_id." || ip = '".getip()."') LIMIT 1"))) {
+		print "<p class=\"er\">Вы уже голосовали за данный отзыв</p>";
+	} else {
+
+		mysql_query("INSERT INTO answers_poll (`user_id`, `date`, `ip`, `answer_id`, `poll`) VALUES (".$user_id.", ".time().", '".getip()."', ".intval($_GET['id']).", 2)");
+		mysql_query("UPDATE answers SET poll_yes = poll_yes + 1, poll_count = poll_count + 1 WHERE id = ".intval($_GET['id'])." LIMIT 1");
+		print "<p class=\"erok\">Ваше мнение учтено!</p>";
+
+	}
+
+} elseif($status == 1 && $_GET['v']) {
+	mysql_query("UPDATE answers SET view = 0 WHERE id = ".intval($_GET['v'])." LIMIT 1");
+	print "<p class=\"erok\">Сообщение скрыто</p>";
+}
+
+
+// Вывод отзывов
+function topics_list($page, $num, $status)
+{
+	$query	= "SELECT * FROM answers WHERE view = 1 AND part = 0 ORDER BY id DESC";
+	$result	= mysql_query($query);
+	$themes = mysql_num_rows($result);
+	$total	= intval(($themes - 1) / $num) + 1;
+	if(empty($page) or $page < 0) $page = 1;
+	if($page > $total) $page = $total;
+	$start = $page * $num - $num;
+	$result = mysql_query($query." LIMIT ".$start.", ".$num);
+	while ($row = mysql_fetch_array($result))
+	{
+  		if ($status == 1) {
+			$admin_but  = "<a href=\"/adminpanel/adminstation.php?a=admin_answers&id=".$row['id']."\"><img src=\"/adminpanel/images/comment_small.gif\" width=\"12\" height=\"12\" border=\"0\" alt=\"Комментировать\" /></a> ";
+			$admin_but .= "<a href=\"/adminpanel/adminstation.php?a=edit_answers&id=".$row['id']."\"><img src=\"/adminpanel/images/edit_small.gif\" width=\"12\" height=\"12\" border=\"0\" alt=\"Редактировать сообщение\" /></a> ";
+			$admin_but .= "<img style=\"cursor: hand;\" onclick=\"if(confirm('Вы уверены?')) top.location.href='/adminpanel/del/answers.php?id=".$row['id']."'\"; src=\"/adminpanel/images/delite_small.gif\" width=\"12\" height=\"12\" border=\"0\" alt=\"Удалить сообщение\" />";
+			$admin_but .= " IP: ".$row['ip'];
+		} else {
+			$admin_but	= "";
+		}
+
+		if ($row['yes'] == 1) {
+			$smile = '<img src="/images/yes.gif" width="15" height="15" border="0" alt="Положительный отзыв" title="Положительный отзыв" />';
+			$style = "border: 1px solid #99ff99; background-color: #e4ffe4; padding: 4 4 4 4px; margin-bottom: 10px;";
+		} else {
+			$smile = '<img src="/images/no.gif" width="15" height="15" border="0" alt="Отрицательный отзыв" title="Отрицательный отзыв" />';
+			$style = "border: 1px solid #ff9999; background-color: #ffe4e4; padding: 4 4 4 4px; margin-bottom: 10px;";
+		}
+
+
+
+print '
+	<table width="100%" border="0" style="'.$style.'">
+		<tr>
+			<td><p>'.$smile.' '.date("d.m.Y H:i", $row['date']).' - <b>'.$row['username'].'</b>';
+
+			if($row['client_id'] == 0) {
+				print ' [Прохожий]';
+			} else {
+				print ' [Инвестор #'.$row['client_id'].']';
+			}
+
+print ' '.$admin_but.'</p>
+			<div class="hline"></div>
+			<p align="justify">'.$row['text'].'</p>';
+
+		if($row['answer']) { print "<div style='border: 1px solid #ff9900; background-color: #feffee; padding: 3px;'><i>Комментарий от администрации:</i><br /><font color=\"#660000\">".$row['answer']."</font></div>"; }
+
+print '	<div style="margin-top: 3px;" class="hline"></div>
+		<div style="float: left;">
+			<a href="id'.$row['id'].'">Комментарии ['.$row['comments'].']</a>
+		</div>
+		<div align="right">
+			<a style="color: red;" href="?a=pollno&id='.$row['id'].'">Не согласен ['.$row['poll_no'].']</a> | <a style="color: green;" href="?a=pollyes&id='.$row['id'].'">Согласен ['.$row['poll_yes'].']</a>
+		</div>
+			</td>
+		</tr>
+	</table><div class="hline" style="margin-bottom: 3px;"></div>
+';
+
+	}
+
+
+	if($page != 1) { $pervpage = "<a href=\"?page=". ($page - 1) ."\">««</a> "; }
+	if($page != $total) { $nextpage = " <a href=\"?page=". ($page + 1) ."\">»»</a>"; }
+	if($page - 2 > 0) { $page2left = " <a href=\"?page=". ($page - 2) ."\">". ($page - 2) ."</a>) "; }
+	if($page - 1 > 0) { $page1left = " <a href=\"?page=". ($page - 1) ."\">". ($page - 1) ."</a>) "; }
+	if($page + 2 <= $total) { $page2right = " <a href=\"?page=". ($page + 2) ."\">". ($page + 2) ."</a>)"; }
+	if($page + 1 <= $total) { $page1right = " <a href=\"?page=". ($page + 1) ."\">". ($page + 1) ."</a>)"; }
+
+	print "<div align=\"right\"><b>Страницы: </b>".$pervpage.$page2left.$page1left.$page.")".$page1right.$page2right.$nextpage."</div>";
+}
+
+$page = intval($_GET['page']);
+topics_list($page, $num, $status);
+
+if ($login) {
+// Форма добавления комментариев
+?>
+<div class="hline"></div>
+<center>
+<img src="/images/otziv.gif" width="300" height="281" border="0" alt="" />
+<table width="380" border="0" align="center">
+	<form action="?action=send" method="post" name="msg_form">
+	<tr>
+		<td colspan="3"><font color="red"><b>!</b></font> Текст сообщения:<br /><textarea style="width: 378px;" name="text" rows="7" cols="48"><?php print htmlspecialchars(substr($_POST['text'], 0, 10000), ENT_QUOTES, ''); ?></textarea></td>
+	</tr>
+	<tr>
+		<td><nobr>
+		<input class="check" type="radio" name="radio" value="1" checked /><img src="/images/yes.gif" width="15" height="15" border="0" alt="Положительный отзыв" title="Положительный отзыв" />
+		<input class="check" type="radio" name="radio" value="2" /> <img src="/images/no.gif" width="15" height="15" border="0" alt="Отрицательный отзыв" title="Отрицательный отзыв" />
+		</nobr></td>
+		<td>
+		</td>
+		<td align="right"><input class="subm" type="submit" value="Отправить!" /></td>
+	</tr>
+	</form>
+</table>
+</center>
+<div style="margin-top: 15px;" align="center">
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':001:','msg_form','text')" src="/images/smiles/01.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':002:','msg_form','text')" src="/images/smiles/02.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':003:','msg_form','text')" src="/images/smiles/03.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':004:','msg_form','text')" src="/images/smiles/04.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':005:','msg_form','text')" src="/images/smiles/05.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':006:','msg_form','text')" src="/images/smiles/06.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':007:','msg_form','text')" src="/images/smiles/07.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':008:','msg_form','text')" src="/images/smiles/08.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':009:','msg_form','text')" src="/images/smiles/09.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':010:','msg_form','text')" src="/images/smiles/10.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':011:','msg_form','text')" src="/images/smiles/11.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':012:','msg_form','text')" src="/images/smiles/12.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':013:','msg_form','text')" src="/images/smiles/13.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':014:','msg_form','text')" src="/images/smiles/14.gif" height="20" width="20" border="0" />
+<br />
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':015:','msg_form','text')" src="/images/smiles/15.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':016:','msg_form','text')" src="/images/smiles/16.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':017:','msg_form','text')" src="/images/smiles/17.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':018:','msg_form','text')" src="/images/smiles/18.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':019:','msg_form','text')" src="/images/smiles/19.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':020:','msg_form','text')" src="/images/smiles/20.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':021:','msg_form','text')" src="/images/smiles/21.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':022:','msg_form','text')" src="/images/smiles/22.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':023:','msg_form','text')" src="/images/smiles/23.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':024:','msg_form','text')" src="/images/smiles/24.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':025:','msg_form','text')" src="/images/smiles/25.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':026:','msg_form','text')" src="/images/smiles/26.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':027:','msg_form','text')" src="/images/smiles/27.gif" height="20" width="20" border="0" />&nbsp;
+<img style="cursor: hand; cursor: pointer;" onclick="PrintSmile(':028:','msg_form','text')" src="/images/smiles/28.gif" height="20" width="20" border="0" />&nbsp; 
+</div>
+<?php
+} else {
+	print '<p class="er">Для добавления отзывов вам необходимо авторизироваться!</p>';
+}
+?>

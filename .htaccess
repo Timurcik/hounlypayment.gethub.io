@@ -1,0 +1,8 @@
+RewriteEngine On
+php_value error_reporting 1
+ErrorDocument 400 /
+ErrorDocument 401 /
+ErrorDocument 403 /
+ErrorDocument 404 /
+ErrorDocument 500 /
+Options -Indexes

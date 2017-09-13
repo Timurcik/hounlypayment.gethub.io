@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<rss version="2.0">
+<channel>
+<title>hourlypayment.org!</title>
+<link>http://hourlypayment.org/</link>
+<description>RSS ����� �������� hourlypayment.org</description>
+<image>
+	<url>http://hourlypayment.org/images/88x31.gif</url>
+	<title>hourlypayment.org</title>
+	<link>http://hourlypayment.org/</link>
+	<width>88</width>
+	<height>31</height>
+</image>
+<pubDate>Mon, 23 Sep 2013 10:29:43 +0200</pubDate>
+<item>
+<title>Новый тарифный план</title>
+<link>http://hourlypayment.org/news/?id=6</link>
+<description>Добавлен новый тарифный план "VIP". Вклады от $100 до $600. Вклад на 4 дня, 1.5% в час....</description>
+<pubDate>Mon, 23 Sep 2013 12:00:00 +0200</pubDate>
+</item>
+<item>
+<title>Ручные выплаты</title>
+<link>http://hourlypayment.org/news/?id=5</link>
+<description>Внимание! На некоторое время сделаны ручные выплаты в связи с тем что обнаружена уявимость....</description>
+<pubDate>Sat, 21 Sep 2013 12:00:00 +0200</pubDate>
+</item>
+<item>
+<title>Старт проекта</title>
+<link>http://hourlypayment.org/news/?id=4</link>
+<description>Здравствуйте! Проект HourlyPayment начинает свою работу в субботу 21.09.2013 в 19:00 по Московскому времени!Мы ждем вас дорогие друзья.Спеши зарегистрироваться, это не займет больше минуты!Твой профит может начаться всего с $1!...</description>
+<pubDate>Mon, 16 Sep 2013 12:00:00 +0200</pubDate>
+</item>
+</channel>
+</rss>
